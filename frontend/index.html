@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Client</title>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <h1>Hello</h1>
+    <script>
+        window.onload = () => {
+
+            const configuration = {iceServers: [{urls: 'stun:localhost:3000'}]}
+            const WebRTCConnection = new RTCPeerConnection(configuration);
+
+            const chatChannel = WebRTCConnection.createDataChannel('chat');
+            chatChannel.onmessage = (event) => console.log('onmessage:', event.data);
+            chatChannel.onopen = () => console.log('onopen');
+            chatChannel.onclose = () => console.log('onclose');
+
+            WebRTCConnection.onicecandidate = (event) => {
+                if (event.candidate)
+                    console.log('localDescription:', JSON.stringify(WebRTCConnection.localDescription));
+            };
+
+            WebRTCConnection.onmessage = (event) => {
+                console.log(event.data);
+            }
+
+            WebRTCConnection.createOffer().then((localDescription) => {
+                WebRTCConnection.setLocalDescription(localDescription);
+            });
+
+
+        }
+    </script>
+</body>
+
+</html>
