@@ -11,7 +11,7 @@
     <script>
         window.onload = () => {
 
-            const configuration = {iceServers: [{urls: 'stun:localhost:3000'}]}
+            const configuration = {iceServers: [{urls: 'stun:localhost:8080'}]}
             const WebRTCConnection = new RTCPeerConnection(configuration);
 
             const chatChannel = WebRTCConnection.createDataChannel('chat');

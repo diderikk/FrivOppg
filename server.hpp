@@ -10,7 +10,7 @@
 
 class Server
 {
-    int PORT = 3000;
+    int PORT = 8080;
     int server_fd;
     int opt = 1;
     struct sockaddr_in server_addr, client_addr;
@@ -36,8 +36,9 @@ class Server
             exit(EXIT_FAILURE);
         }
         
-        thread_task();
-        thread_task();
+        while(true){
+            thread_task();
+        }
     }
 
     void thread_task()
@@ -68,6 +69,7 @@ class Server
             std::cout << mt << std::endl;
             std::cout << message_length << std::endl;
 
+            //Magic Cookie
             int magic_cookie = buffer[4]; 
             for(int i = 5; i<8; i++){
                 magic_cookie = (magic_cookie << 8) | (unsigned char)buffer[i];
@@ -76,53 +78,64 @@ class Server
                 std::cout << "Magic Cookie found" << std::endl;
                 
             }
-            std::string trans_id = "";
+
+            // Transactional ID
+            char trans_id[12];
             for(int i = 8; i<20; i++){
-                std::bitset<8> bits(buffer[i]);
-                
-                trans_id += bits.to_string();
+                trans_id[i-8] = buffer[i];
             }
 
-            std::cout << trans_id << std::endl;
+
 
             std::string inet_addr = inet_ntoa(client_addr.sin_addr);
-            std::cout << "Addr: " << inet_addr << " Port: " << client_addr.sin_port << std::endl;
+            std::cout << "Addr: " << inet_addr << " Port: " << ntohs(client_addr.sin_port) << std::endl;
+            std::cout << "Addr: " << client_addr.sin_addr.s_addr  << " Port: " << client_addr.sin_port << std::endl; 
 
             std::vector<char> message;
 
-            
-            char first = (0b10 << 6) | (0x0101 >> 8);
-            std::bitset<8> fir(first);
-            char second = (0x0101 & 0b11111111);
+            message.push_back(0x0101 >> 8);
+            message.push_back(0x0101 & 0b11111111);
 
-            message.push_back(first);
-            message.push_back(second);
             std::vector<char> payload;
-            payload.push_back((0x0001 >> 8));
-            payload.push_back((0x0001 & 0b11111111));
-            payload.push_back(0);
-            payload.push_back(8);
+            // Foreløpig bare MAPPED-ADDRESS
+            payload.push_back(0x0001 >> 8);
+            payload.push_back(0x0001 & 0b11111111);
+            payload.push_back(8 >> 8);
+            payload.push_back(8 & 0b11111111);
+            //MAPPED ADDRESS IPv4
             char ma_attr[8];
             ma_attr[0] = 0;
             ma_attr[1] = 0x01;
             ma_attr[2] = (client_addr.sin_port >> 8);
             ma_attr[3] = (client_addr.sin_port & 0b11111111);
+            int ip_address = htonl(client_addr.sin_addr.s_addr);
             for(int i = 0; i<4; i++){
-                ma_attr[4+i] = ((client_addr.sin_addr.s_addr >> (8*(3-i))) & 0b11111111);
+                ma_attr[4+i] = (ip_address >> (8*(3-i))) & 0b11111111;
             }
+
+            // Plasserer MAPPED-ADDRESS attributet inn i payload
             payload.insert(payload.end(),ma_attr,ma_attr + 8);
-            message.push_back(0);
-            message.push_back(payload.size());
+
+            // Plasserer inn lengden på payload
+            message.push_back((payload.size() >> 8));
+            message.push_back((payload.size() & 0b11111111));
+
             for(int i = 4; i<20; i++){
                 message.push_back(buffer[i]);
             }
+            // Plasserer payload inn i STUN meldingen
             message.insert(message.end(),payload.begin(), payload.end());
-            std::cout << "Size: " << message.size() << std::endl;
 
+            std::cout << payload.size() << std::endl;
+            std::cout << "Size: " << message.size() << std::endl;
+            
+            // Skriver ut alle bits
+            std::bitset<8> fir(buffer[0]);
             for(int i = 0; i<message.size(); i++){
                 fir = message[i];
                 std::cout << "Byte: " << i << ": " << fir << std::endl;
             }
+            
             int len = sizeof(client_addr);
             sendto(server_fd, message.data(), message.size(), MSG_CONFIRM, (struct sockaddr *)&client_addr, len);
 
