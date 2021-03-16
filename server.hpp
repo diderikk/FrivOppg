@@ -51,23 +51,19 @@ class Server
                         (socklen_t *)&len);
         std::cout << n << std::endl;
         parse_message(buffer,n, client_addr);
-        // sendto(server_fd, hello, strlen(hello), MSG_CONFIRM, (struct sockaddr *)&client_addr, len);
-        // printf("Hello message sent.\n");
+        sendResponse(buffer,n, client_addr);
+        
     }
 
     void parse_message(char *buffer, long n, sockaddr_in client_addr){
         // Checks if message is a request
         if((buffer[0] >> 6) == 0b00){
             // 6 least significant bits of first byte:
-            short message_type1 = (buffer[0] & 0b111111);
-            short message_type = (message_type1 << 8) | buffer[1];
-            std::cout << message_type << std::endl;
+            short message_type = (buffer[0] << 8) | (unsigned char)buffer[1];
+            if(message_type != 1){
+                return ;
+            }
             short message_length = (buffer[2] << 8) | buffer[3];
-            std::bitset<16> ml(message_length);
-            std::bitset<16> mt(message_type);
-            std::cout << ml << std::endl;
-            std::cout << mt << std::endl;
-            std::cout << message_length << std::endl;
 
             //Magic Cookie
             int magic_cookie = buffer[4]; 
@@ -85,17 +81,21 @@ class Server
                 trans_id[i-8] = buffer[i];
             }
 
-
-
             std::string inet_addr = inet_ntoa(client_addr.sin_addr);
             std::cout << "Addr: " << inet_addr << " Port: " << ntohs(client_addr.sin_port) << std::endl;
             std::cout << "Addr: " << client_addr.sin_addr.s_addr  << " Port: " << client_addr.sin_port << std::endl; 
 
-            std::vector<char> message;
+            // If requet container unknown attributes, error code 420.
 
+        }
+    }
+    void sendResponse(char *buffer, long n, sockaddr_in client_addr){
+            
+            std::vector<char> message;
+            
             message.push_back(0x0101 >> 8);
             message.push_back(0x0101 & 0b11111111);
-
+            // Attributene
             std::vector<char> payload;
             // Foreløpig bare MAPPED-ADDRESS
             payload.push_back(0x0001 >> 8);
@@ -103,15 +103,7 @@ class Server
             payload.push_back(8 >> 8);
             payload.push_back(8 & 0b11111111);
             //MAPPED ADDRESS IPv4
-            char ma_attr[8];
-            ma_attr[0] = 0;
-            ma_attr[1] = 0x01;
-            ma_attr[2] = (client_addr.sin_port >> 8);
-            ma_attr[3] = (client_addr.sin_port & 0b11111111);
-            int ip_address = htonl(client_addr.sin_addr.s_addr);
-            for(int i = 0; i<4; i++){
-                ma_attr[4+i] = (ip_address >> (8*(3-i))) & 0b11111111;
-            }
+            char* ma_attr{mapped_address(client_addr)};
 
             // Plasserer MAPPED-ADDRESS attributet inn i payload
             payload.insert(payload.end(),ma_attr,ma_attr + 8);
@@ -135,20 +127,23 @@ class Server
                 fir = message[i];
                 std::cout << "Byte: " << i << ": " << fir << std::endl;
             }
-            
+
             int len = sizeof(client_addr);
             sendto(server_fd, message.data(), message.size(), MSG_CONFIRM, (struct sockaddr *)&client_addr, len);
-
-
-            
-
-
-            // If requet container unknown attributes, error code 420.
-
         }
-
-        
-    }
+        // Returnerer en peker til array adresse område
+        char * mapped_address(sockaddr_in client_addr){
+            char* ma_attr = new char[8];
+            ma_attr[0] = 0;
+            ma_attr[1] = 0x01;
+            ma_attr[2] = (client_addr.sin_port >> 8);
+            ma_attr[3] = (client_addr.sin_port & 0b11111111);
+            int ip_address = htonl(client_addr.sin_addr.s_addr);
+            for(int i = 0; i<4; i++){
+                ma_attr[4+i] = (ip_address >> (8*(3-i))) & 0b11111111;
+            }
+            return ma_attr;
+        }
 
 public:
     Server()
