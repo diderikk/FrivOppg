@@ -197,21 +197,9 @@ class Server
         xma_attr[1] = 0x01;
         int magic_cookie = get_magic_cookie(buffer);
         short x_port = ntohs(client_addr.sin_port) ^ (magic_cookie >> 16);
+        int x_address = (ntohl(client_addr.sin_addr.s_addr) ^ magic_cookie);
 
-        int x_address = (client_addr.sin_addr.s_addr ^ magic_cookie);
-        std::string inet_addr = inet_ntoa(client_addr.sin_addr);
-        std::cout << "Addr: " << inet_addr << " Port: " << ntohs(client_addr.sin_port) << std::endl;
-        std::bitset<32> adr_bit(client_addr.sin_addr.s_addr);
-        std::cout << adr_bit << std::endl;
-        adr_bit = magic_cookie;
-        std::cout << adr_bit << std::endl;
-        adr_bit = x_address;
-        std::cout << adr_bit << std::endl;
-        x_address = htonl(x_address);
-        adr_bit = x_address;
-        std::cout << adr_bit << std::endl;
         
-
         xma_attr[2] = (x_port >> 8);
         xma_attr[3] = (x_port & 0b11111111);
         for (int i = 0; i < 4; i++)

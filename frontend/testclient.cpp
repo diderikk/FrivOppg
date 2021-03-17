@@ -149,6 +149,13 @@ int stun_xor_addr(char * stun_server_ip,short stun_server_port,short local_port,
         short port = *(short *)(&buf[26]);
         printf("%d\n",port);
         int ip_addr = *(int *)(&buf[28]);
+        std::bitset<32> adr_bit(ip_addr);
+        std::cout << adr_bit << std::endl;
+
+        ip_addr = ip_addr ^ magic_cookie;
+        adr_bit = ip_addr;
+        std::cout << adr_bit << std::endl;
+
         // ip_addr = nthol(ip_addr);
         printf("IP: %d\n", ip_addr);
         localaddr.sin_addr.s_addr = ip_addr;
