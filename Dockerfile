@@ -1,3 +1,5 @@
+# docker run -td -p 8080:8080/udp --rm <docker-image>
+
 FROM ubuntu:20.04
 
 RUN apt-get update
