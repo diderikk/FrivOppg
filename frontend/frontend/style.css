@@ -1,0 +1,93 @@
+body {
+    font-size: 1.7em;
+}
+
+h1 {
+    text-align: center;
+}
+
+h4 {
+    margin: 3vh;
+}
+
+label {
+    font-weight: bold;
+}
+
+#container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#message-form {
+    width: 100%;
+}
+
+.input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 3.5vh;
+    width: 25vh;
+    font-size: 20px;
+    border-radius: 3px;
+}
+
+.button {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 20px;
+    width: 17%;
+    height: 4vh;
+    border: 1px solid transparent;
+    cursor: pointer;
+    background: lightblue;
+}
+
+#container2 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#session-id-form {
+    display: inline;
+}
+
+
+#created-session-id {
+    visibility: hidden;
+}
+
+.container-button {
+    width: 15vh;
+}
+
+#chat {
+    width: 40%;
+    margin-bottom: 20px;
+    border: 3px sold lightcoral;
+    outline: none;
+    border-radius: 5px;
+    padding: 10px;
+    resize: none;
+    font-size: 16px;
+    height: 30vh;
+}
+#error{
+    font-size: 0.9em;
+    margin-top: 0;
+    color:red;
+    text-align: center;
+}

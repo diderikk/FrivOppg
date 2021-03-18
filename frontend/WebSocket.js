@@ -1,16 +1,15 @@
 const net = require('net');
 const fs = require('fs');
 const crypto = require("crypto");
+const clientHandler = require('./ClientHandler');
 
 const WSPORT = 3001;
-let clients = [];
+// let clients = [];
 
-let firstOffer = '';
-let firstRemoteDescription = '';
 
-module.exports = {test};
+module.exports = {startWebSocket};
 
-function test(){
+function startWebSocket(){
     const wsServer = net.createServer((connection) => {
         console.log("Client connected");
 
@@ -32,7 +31,7 @@ function test(){
                 connection.write(`HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\n` +
                     `Connection: Upgrade\r\nSec-WebSocket-Accept: ${acceptKey}\r\n\r\n`);
                 // Adds client to an array of clients/sockets
-                clients.push(connection);
+                // clients.push(connection);
             }
             else {
                 //Checks opcode for connection closing
@@ -42,22 +41,24 @@ function test(){
                 };
                 // Client message
                 let message = parseData(data);
-                console.log(message);
+                message = JSON.parse(message);
+                // console.log(message);
+
+
                 // Finds client index and creates a response
-                let response = "";
-                if(!firstOffer && message === 'G'){
-                    ws.send('Not an existing channel');
-                    return;
-                }
-                else if(!firstOffer){
-                    firstOffer = message;
-                    let buf = createMessage('Created a channel');
+                if(message.isOffer){
+                    let sessionID = clientHandler.offerHandler(message, connection);
+                    let buf = createMessage(sessionID);
                     connection.write(buf);
                 }
-                else if(message === 'G'){
-                    console.log(firstOffer);
-                    firstRemoteDescription = message;
-                    let buf = createMessage(firstOffer);
+                else if(message.isAnswer){
+                    let session = clientHandler.answerHandler(message);
+                    let buf = createMessage(JSON.stringify(session.remoteAnswer));
+                    session.offerSocket.write(buf);
+                }
+                else if(!message.isAnswer && !message.isOffer){
+                    let offerDescription = clientHandler.getOfferHandler(message);
+                    let buf = createMessage(offerDescription);
                     connection.write(buf);
                 };
                 
@@ -65,11 +66,11 @@ function test(){
         });
         // Removes clients from array when they close connection
         connection.on('end', () => {
-            for (let i = 0; i < clients.length; i++) {
-                if (clients[i] === connection) {
-                    clients.splice(i);
-                }
-            }
+            // for (let i = 0; i < clients.length; i++) {
+            //     if (clients[i] === connection) {
+            //         clients.splice(i);
+            //     }
+            // }
             console.log("Client disconnected");
         });
     });
@@ -109,7 +110,6 @@ function createAcceptKey(clientKey) {
 function createMessage(text) {
     // Byte length
     let textByteLength = Buffer.from(text).length;
-    console.log(textByteLength);
 
     // datalength bits into a single byte
     let secondByte, buffer1;

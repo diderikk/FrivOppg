@@ -1,0 +1,33 @@
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>WebSocket Client</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <script src="index.js"></script>
+  <h1>Peer to Peer Client</h1>
+  <div id="container">
+    <form id="message-form">
+      <label for="message">Write your message:</label>
+      <input id="message" class="input" type="text">
+      <button id="submit" class="button" type="submit" disabled>Submit message</button>
+    </form>
+    <textarea id="chat" readonly=true></textarea>
+    <div id="container2">
+      <button id="create" class="button container-button">Create Room</button>
+      <h4 id="created-session-id">Hello</h4>
+      <form id="session-id-form">
+
+        <!-- <label for="session-id-input">Write a session ID</label> -->
+        <input id="session-id-input" class="input" type="text" placeholder="Session ID" required>
+        <button id="connect" class="button container-button" type="submit">Connect</button>
+        <p id="error"></p>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
