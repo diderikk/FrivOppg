@@ -1,40 +1,62 @@
-<!DOCTYPE html>
 <html>
-
-<head>
-    <title>Client</title>
+  <head>
     <meta charset="UTF-8" />
-</head>
-
-<body>
-    <h1>Hello</h1>
-    <script>
-        window.onload = () => {
-
-            const configuration = {iceServers: [{urls: 'stun:localhost:8080'}]}
-            const WebRTCConnection = new RTCPeerConnection(configuration);
-
-            const chatChannel = WebRTCConnection.createDataChannel('chat');
-            chatChannel.onmessage = (event) => console.log('onmessage:', event.data);
-            chatChannel.onopen = () => console.log('onopen');
-            chatChannel.onclose = () => console.log('onclose');
-
-            WebRTCConnection.onicecandidate = (event) => {
-                if (event.candidate)
-                    console.log('localDescription:', JSON.stringify(WebRTCConnection.localDescription));
-            };
-
-            WebRTCConnection.onmessage = (event) => {
-                console.log(event.data);
-            }
-
-            WebRTCConnection.createOffer().then((localDescription) => {
-                WebRTCConnection.setLocalDescription(localDescription);
-            });
-
-
-        }
-    </script>
-</body>
-
+    <title>WebSocket Client</title>
+    <style>
+      h1{
+        text-align: center;
+      }
+      #container{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      form{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      #message{
+        margin-top: 5px;
+      }
+      #submit{
+        margin-top: 10px;
+        border-radius: 5px;
+        width: 12%;
+        height: 30px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        background: lightblue;
+      }
+      #chat{
+        width: 40%;
+        border: 3px sold lightcoral;
+        outline: none;
+        border-radius: 5px;
+        padding: 10px;
+        resize: none;
+        font-size: 16px;
+        height: 30vh;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <script src="index.js"></script> -->
+    <h1>WebSocket Client</h1>
+    <div id="container">
+      <form>
+        <label for="message">Write your message:</label>
+        <input id="message" type="text">
+        <button id="submit" type="submit">Submit message</button>
+      </form>
+      <textarea id="chat" readonly=true></textarea>
+      <div>
+          <button id="connect">Connect</button>
+          <button id="create">Create Room</button>
+        </div>
+    </div>
+  </body>
 </html>
