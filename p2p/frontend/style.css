@@ -1,5 +1,6 @@
 body {
     font-size: 1.7em;
+    margin: 30px;
 }
 
 h1 {
@@ -14,6 +15,10 @@ label {
     font-weight: bold;
 }
 
+video{
+    border-radius: 10px;
+}
+
 #container {
     width: 100%;
     display: flex;
@@ -23,16 +28,55 @@ label {
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: inline;
 }
 
-#message-form {
+
+#video-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     width: 100%;
 }
 
-.input {
+.video-label{
+    display: flex;
+    flex-direction: column;
+    width: 41%; 
+    margin: 0 20px 10px 0;
+}
+
+.video-label label{
+    text-align: center;
+}
+
+#chat-controllers{
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    width: 85%;
+    justify-content: center;
+}
+
+#chat{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center ;
+}
+
+#output{
+    width: 70%;
+    margin-bottom: 20px;
+    outline: none;
+    border-radius: 5px;
+    padding: 10px;
+    resize: none;
+    font-size: 16px;
+    height: 23vh;
+}
+
+input {
     margin-top: 5px;
     margin-bottom: 5px;
     height: 3.5vh;
@@ -41,28 +85,26 @@ form {
     border-radius: 3px;
 }
 
+
 .button {
-    margin-top: 20px;
+    /* margin-top: 20px;     */
     margin-bottom: 15px;
     border-radius: 5px;
     font-size: 20px;
-    width: 17%;
+    width: 15vh;
     height: 4vh;
     border: 1px solid transparent;
     cursor: pointer;
     background: lightblue;
+
 }
 
-#container2 {
+
+#controllers {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    justify-content: space-evenly;
+    width: 50%;
     align-items: center;
-}
-
-#session-id-form {
-    display: inline;
 }
 
 
@@ -70,21 +112,6 @@ form {
     visibility: hidden;
 }
 
-.container-button {
-    width: 15vh;
-}
-
-#chat {
-    width: 40%;
-    margin-bottom: 20px;
-    border: 3px sold lightcoral;
-    outline: none;
-    border-radius: 5px;
-    padding: 10px;
-    resize: none;
-    font-size: 16px;
-    height: 30vh;
-}
 #error{
     font-size: 0.9em;
     margin-top: 0;

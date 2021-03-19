@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>WebSocket Client</title>
+  <title>Peer To Peer</title>
   <link rel="stylesheet" href="style.css">
   <script src="index.js"></script>
 </head>
@@ -10,22 +10,36 @@
 <body>
   <h1>Peer to Peer Client</h1>
   <div id="container">
-    <form id="message-form">
-      <label for="message">Write your message:</label>
-      <input id="message" class="input" type="text">
-      <button id="submit" class="button" type="submit" disabled>Submit message</button>
-    </form>
-    <textarea id="chat" readonly=true></textarea>
-    <div id="container2">
-      <button id="create" class="button container-button">Create Room</button>
-      <h4 id="created-session-id">Hello</h4>
-      <form id="session-id-form">
+    <div id="video-container">
+        <div class="video-label">
+          <label for="local-video">Local</label>
+          <video id="local-video" autoplay playsinline></video>
+        </div>
+        
+      <div class="video-label">
+        <label for="remote-video">Remote</label>
+        <video id="remote-video" autoplay playsinline></video>
+      </div>
 
-        <!-- <label for="session-id-input">Write a session ID</label> -->
-        <input id="session-id-input" class="input" type="text" placeholder="Session ID" required>
-        <button id="connect" class="button container-button" type="submit">Connect</button>
-        <p id="error"></p>
-      </form>
+    </div>
+    <div id="chat-controllers">
+      <div id="chat">
+        <textarea id="output" readonly>Chat:</textarea>
+        <form>
+          <input id="message-input" type="text">
+          <button id="send" class="button" disabled>Send</button>
+        </form>
+      </div>
+      <div id="controllers">
+        <button id="create" class="button">Create Room</button>
+        <h4 id="created-session-id">Hello</h4>
+
+        <form>
+          <input id="session-id-input" type="text" placeholder="Session ID" required>
+          <button id="connect" class="button" type="submit">Connect</button>
+          <p id="error"></p>
+        </form>
+      </div>
     </div>
   </div>
 </body>
