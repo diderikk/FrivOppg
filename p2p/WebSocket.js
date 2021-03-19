@@ -66,11 +66,6 @@ function startWebSocket(){
         });
         // Removes clients from array when they close connection
         connection.on('end', () => {
-            // for (let i = 0; i < clients.length; i++) {
-            //     if (clients[i] === connection) {
-            //         clients.splice(i);
-            //     }
-            // }
             console.log("Client disconnected");
         });
     });

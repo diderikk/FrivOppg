@@ -1,4 +1,9 @@
 .vscode/
+
 client
+
 server
+
+test
+
 wireshark.*
