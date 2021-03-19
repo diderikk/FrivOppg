@@ -81,6 +81,7 @@ public:
     }
     ~Server()
     {
+        event_loop.stop();
         std::cout << "Closing server" << std::endl;
     }
 };

@@ -8,10 +8,8 @@ RUN apt-get install -y g++
 
 EXPOSE 8080/udp
 
-COPY server.cpp .
+COPY stunserver/ .
 
-COPY server.hpp .
-
-RUN g++ server.cpp -o server
+RUN g++ server.cpp -lpthread -o server
 
 CMD ["./server"]
