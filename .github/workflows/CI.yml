@@ -24,24 +24,22 @@ jobs:
       - run: echo "$known_hosts" > ~/.ssh/known_hosts
       - run: echo "$private_key" > ~/.ssh/id_rsa
       - run: chmod 600 ~/.ssh/id_rsa
-      - run: cat ~/.ssh/id_rsa
-      - run: echo Hello > ~/Hello
-      - run: scp ~/Hello stun@40.85.141.137:~/
+      - run: scp stunserver stun@40.85.141.137:~/
 
   
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create SSH key
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          sudo chmod 600 ~/.ssh/id_rsa
-          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          cat ~/.ssh/id_rsa
-          echo Hello > ~/Hello
-          scp ~/Hello stun@40.85.141.137:~/
-        shell: bash
-        env:
-          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-          SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Create SSH key
+  #       run: |
+  #         mkdir -p ~/.ssh/
+  #         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+  #         sudo chmod 600 ~/.ssh/id_rsa
+  #         echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+  #         cat ~/.ssh/id_rsa
+  #         echo Hello > ~/Hello
+  #         scp ~/Hello stun@40.85.141.137:~/
+  #       shell: bash
+  #       env:
+  #         SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+  #         SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
