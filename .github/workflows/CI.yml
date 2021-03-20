@@ -1,4 +1,4 @@
-name: CD1
+name: CI
 
 on: [push]
 
