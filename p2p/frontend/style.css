@@ -1,120 +1,115 @@
 body {
-    font-size: 1.7em;
-    margin: 30px;
+  font-size: 1.7em;
+  margin: 30px;
 }
 
 h1 {
-    text-align: center;
+  text-align: center;
 }
 
 h4 {
-    margin: 3vh;
+  margin: 3vh;
 }
 
 label {
-    font-weight: bold;
+  font-weight: bold;
 }
 
-video{
-    border-radius: 10px;
+video {
+  border-radius: 10px;
 }
 
 #container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 form {
-    display: inline;
+  display: inline;
 }
 
-
-#video-container{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
+#video-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
 }
 
-.video-label{
-    display: flex;
-    flex-direction: column;
-    width: 41%; 
-    margin: 0 20px 10px 0;
+.video-label {
+  display: flex;
+  flex-direction: column;
+  width: 41%;
+  margin: 0 20px 10px 0;
 }
 
-.video-label label{
-    text-align: center;
+.video-label label {
+  text-align: center;
 }
 
-#chat-controllers{
-    display: flex;
-    flex-direction: row;
-    margin-top: 30px;
-    width: 85%;
-    justify-content: center;
+#chat-controllers {
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  width: 85%;
+  justify-content: center;
 }
 
-#chat{
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center ;
+#chat {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-#output{
-    width: 70%;
-    margin-bottom: 20px;
-    outline: none;
-    border-radius: 5px;
-    padding: 10px;
-    resize: none;
-    font-size: 16px;
-    height: 23vh;
+#output {
+  width: 70%;
+  margin-bottom: 20px;
+  outline: none;
+  border-radius: 5px;
+  padding: 10px;
+  resize: none;
+  font-size: 16px;
+  height: 23vh;
 }
 
 input {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    height: 3.5vh;
-    width: 25vh;
-    font-size: 20px;
-    border-radius: 3px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  height: 3.5vh;
+  width: 25vh;
+  font-size: 20px;
+  border-radius: 3px;
 }
-
 
 .button {
-    /* margin-top: 20px;     */
-    margin-bottom: 15px;
-    border-radius: 5px;
-    font-size: 20px;
-    width: 15vh;
-    height: 4vh;
-    border: 1px solid transparent;
-    cursor: pointer;
-    background: lightblue;
-
+  /* margin-top: 20px;     */
+  margin-bottom: 15px;
+  border-radius: 5px;
+  font-size: 20px;
+  width: 15vh;
+  height: 4vh;
+  border: 1px solid transparent;
+  cursor: pointer;
+  background: lightblue;
 }
-
 
 #controllers {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-items: center;
 }
-
 
 #created-session-id {
-    visibility: hidden;
+  visibility: hidden;
 }
 
-#error{
-    font-size: 0.9em;
-    margin-top: 0;
-    color:red;
-    text-align: center;
+#error {
+  font-size: 0.9em;
+  margin-top: 0;
+  color: red;
+  text-align: center;
 }
