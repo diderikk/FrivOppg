@@ -24,7 +24,7 @@ jobs:
       - run: echo "$known_hosts" > ~/.ssh/known_hosts
       - run: echo "$private_key" > ~/.ssh/id_rsa
       - run: chmod 600 ~/.ssh/id_rsa
-      - run: scp -r stunserver stun@40.85.141.137:~/
+      - run: scp -r stunserver Dockerfile Makefile stun@40.85.141.137:~/ && scp 
 
   
   # build:
