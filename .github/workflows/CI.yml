@@ -17,9 +17,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Retrieve secret
-      env:
-        known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-        private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+        env:
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          private_key: ${{ secrets.SSH_PRIVATE_KEY }}
       - run: mkdir ~/.ssh
       - run: echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
       - run: ls ~/.ssh
