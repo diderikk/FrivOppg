@@ -21,8 +21,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: mkdir ~/.ssh
-      - run: echo ${known_hosts} > ~/.ssh/known_hosts
-      - run: echo ${private_key} > ~/.ssh/id_rsa
+      - run: echo "$known_hosts" > ~/.ssh/known_hosts
+      - run: echo "$private_key" > ~/.ssh/id_rsa
       - run: chmod 600 ~/.ssh/id_rsa
       - run: cat ~/.ssh/id_rsa
       - run: echo Hello > ~/Hello
