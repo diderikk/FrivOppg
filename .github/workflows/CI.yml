@@ -1,0 +1,13 @@
+name: CD
+
+on: [push]
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - run: npm install --global prettier
+      - run: prettier --check p2p
+
