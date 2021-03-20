@@ -21,5 +21,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: mkdir ~/.ssh
-      - run: echo env.known_hosts > ~/.ssh/known_hosts
+      - run: echo ${known_hosts} > ~/.ssh/known_hosts
       - run: cat ~/.ssh/known_hosts
