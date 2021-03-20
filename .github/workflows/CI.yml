@@ -25,5 +25,6 @@ jobs:
       - run: echo ${private_key} > ~/.ssh/id_rsa
       - run: chmod 600 ~/.ssh/id_rsa
       - run: cat ~/.ssh/id_rsa
+      - run: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
       - run: echo Hello > ~/Hello
       - run: scp ~/Hello stun@40.85.141.137:~/
