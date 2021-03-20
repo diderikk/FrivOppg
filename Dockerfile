@@ -10,6 +10,6 @@ EXPOSE 8080/udp
 
 COPY stunserver/ .
 
-RUN g++ server.cpp -lpthread -o server
+RUN g++ server.cpp -fsanitize=address -lpthread -o server
 
 CMD ["./server"]
