@@ -4,7 +4,10 @@ const crypto = require("crypto");
 const clientHandler = require("./ClientHandler");
 
 const WSPORT = 3001;
-// let clients = [];
+
+/*
+  THIS IS TAKEN FROM OVING 6
+*/
 
 module.exports = { startWebSocket };
 
@@ -16,6 +19,7 @@ function startWebSocket() {
       string = data.toString();
       // Checks to see if it trying to connect to the WS server
       if (/GET \/ HTTP\//i.test(string)) {
+        // If request does not contain required headers
         if (!checkHeaderFields(string)) {
           connection.write("HTTP/1.1 400 Bad Request\r\n");
           console.log(string);
@@ -31,8 +35,6 @@ function startWebSocket() {
           `HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\n` +
             `Connection: Upgrade\r\nSec-WebSocket-Accept: ${acceptKey}\r\n\r\n`
         );
-        // Adds client to an array of clients/sockets
-        // clients.push(connection);
       } else {
         //Checks opcode for connection closing
         if ((data[0] & 0b1111) === 0x8) {
@@ -44,15 +46,21 @@ function startWebSocket() {
         message = JSON.parse(message);
         // console.log(message);
 
-        // Finds client index and creates a response
+        // If message is an offer:
         if (message.isOffer) {
+          // Creates an session ID
           let sessionID = clientHandler.offerHandler(message, connection);
+          // Writes it to client
           let buf = createMessage(sessionID);
           connection.write(buf);
+          // If message is an answer
         } else if (message.isAnswer) {
+          // FInds session
           let session = clientHandler.answerHandler(message);
+          // Sends answer to client who sent offer
           let buf = createMessage(JSON.stringify(session.remoteAnswer));
           session.offerSocket.write(buf);
+          // If message neither answer or offer, send the offer to the one asking
         } else if (!message.isAnswer && !message.isOffer) {
           let offerDescription = clientHandler.getOfferHandler(message);
           let buf = createMessage(offerDescription);

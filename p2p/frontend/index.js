@@ -1,20 +1,27 @@
-const ws = new WebSocket("ws://localhost:3001");
 let localDescription = null;
 let chatChannel = null;
 let sessionID = "";
+// Sets up a websocket connection to server
+const ws = new WebSocket("ws://localhost:3001");
 
+// Can be changed to stun@40.85.141.137, when server ONLINE
+// TODO, change urls
 const configuration = {
   iceServers: [{ urls: "stun:stun1.l.google.com:19302" }],
 };
+// Starts an PeerConnection
 const WebRTCConnection = new RTCPeerConnection(configuration);
 
 window.onload = () => {
+  // Plays video from client host camera
   playVideoFromCamera();
+  // When peers are connected, remote camera will be displayed
   playVideoFromRemoteCamera();
+
 
   document.getElementById("create").onclick = () => {
     ws.onmessage = (event) => {
-      // console.log(event.data);
+      // If session ID is returned
       if (/^\d+/.test(event.data)) {
         document.getElementById("created-session-id").innerText =
           "Session ID: " + event.data;
@@ -26,6 +33,7 @@ window.onload = () => {
         document.getElementById("connect").setAttribute("disabled", "disabled");
         return;
       }
+      // else it received the answer
       const remoteDescription = JSON.parse(event.data);
       WebRTCConnection.setRemoteDescription(remoteDescription);
     };
@@ -35,18 +43,19 @@ window.onload = () => {
   document.getElementById("connect").onclick = (event) => {
     event.preventDefault();
     ws.onmessage = (event) => {
-      // console.log(event.data);
+      // if error occurs
       if (event.data === "This is not a valid Session ID") {
         document.getElementById("error").innerText = event.data;
         return;
       }
+      // Else get offer and send answer
       document.getElementById("create").setAttribute("disabled", "disabled");
       joinRoom(JSON.parse(event.data));
     };
     sessionID = document.getElementById("session-id-input").value;
     send(sessionID, null, false, false);
   };
-
+  // When chat is enabled
   document.getElementById("send").addEventListener("click", (event) => {
     event.preventDefault();
     let input = document.getElementById("message-input").value;
@@ -56,6 +65,9 @@ window.onload = () => {
   });
 };
 
+/**
+ * Plays video from camera and sends it to remote connection
+ */
 async function playVideoFromCamera() {
   try {
     const constraints = { video: true, audio: true };
@@ -72,7 +84,9 @@ async function playVideoFromCamera() {
     console.error("Could not open video", error);
   }
 }
-
+/**
+ * Plays video from peer's camera
+ */
 async function playVideoFromRemoteCamera() {
   let remoteStream = new MediaStream();
   const remoteVideo = document.getElementById("remote-video");
@@ -83,11 +97,15 @@ async function playVideoFromRemoteCamera() {
   });
 }
 
+/**
+ * Creates offer for remote connection og creates channels
+ */
 function createRoom() {
+  // Creates a chat channel
   chatChannel = WebRTCConnection.createDataChannel("chat");
   chatChannel.onmessage = (event) => {
     document.getElementById("output").value +=
-      "\n" + "Other dude: " + event.data;
+      "\n" + "Remote: " + event.data;
     console.log(event.data);
   };
   chatChannel.onopen = () => {
@@ -97,23 +115,31 @@ function createRoom() {
   };
   chatChannel.onclose = () => console.log("onclose");
 
+  // Eventlistener for ice candidates
   WebRTCConnection.onicecandidate = (event) => {
+    // If localdescription is not set or contains type srflx
+    // srflx indicates an intermdiary address assigned by the STUN server
+    // https://developer.mozilla.org/en-US/docs/Web/API/RTCIceCandidateType
     if (
       /srflx/.test(WebRTCConnection.localDescription.toJSON().sdp) &&
       !localDescription
     ) {
-      // console.log('localDescription:', JSON.stringify(WebRTCConnection.localDescription));
       localDescription = WebRTCConnection.localDescription;
+      // Sendes offer to WebSocket
       send("", localDescription, false, true);
     }
   };
-
+  // Creates offers
   WebRTCConnection.createOffer().then((localDescription) => {
     WebRTCConnection.setLocalDescription(localDescription);
   });
 }
-
+/**
+ * Creates answers and joins channel
+ * @param {Offer} remoteDescription 
+ */
 function joinRoom(remoteDescription) {
+  // Joins chat channel if offer offers it
   WebRTCConnection.ondatachannel = (event) => {
     if (event.channel.label == "chat") {
       chatChannel = event.channel;
@@ -132,16 +158,16 @@ function joinRoom(remoteDescription) {
   };
 
   WebRTCConnection.onicecandidate = (event) => {
+    // Finds an answer for the offer
     if (
       WebRTCConnection.localDescription.toJSON().type === "answer" &&
       !localDescription
     ) {
-      // console.log(JSON.stringify(WebRTCConnection.localDescription));
       localDescription = WebRTCConnection.localDescription;
       send(sessionID, localDescription, true, false);
     }
   };
-
+  // Sets given remote description
   WebRTCConnection.setRemoteDescription(remoteDescription);
 
   WebRTCConnection.createAnswer().then((localDescription) => {
@@ -149,6 +175,13 @@ function joinRoom(remoteDescription) {
   });
 }
 
+/**
+ * Sends an message object to the WebSocket server
+ * @param {string} sessionID 
+ * @param {localdescription} data 
+ * @param {boolean} isAnswer 
+ * @param {boolean} isOffer 
+ */
 function send(sessionID, data, isAnswer, isOffer) {
   let message = {
     sessionID: sessionID,

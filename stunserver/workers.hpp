@@ -10,10 +10,19 @@
 
 using namespace std;
 // g++ main_sleep.cpp -lpthread -o main_sleep
+
+// Container for function arguments
+struct function_info{
+    function<void(char *, sockaddr_in, int)> task;
+    int n; 
+    struct sockaddr_in client_addr;
+    char *buffer;
+};
+
 class Workers
 {
     int thread_size;
-    list<function<void()>> tasks;
+    list<function_info> tasks;
     vector<thread> threads;
     mutex worker_mutex;
     condition_variable worker_cv;
@@ -40,11 +49,12 @@ public:
         create_threads(thread_size);
     };
     // Posts tasks
-    void post(function<void()> task)
+    void post(function<void(char *, sockaddr_in, int)> task, int n, struct sockaddr_in client_addr, char *buffer)
     {
+        function_info func{task, n, client_addr, buffer};
         {
             unique_lock<mutex> lock(worker_mutex);
-            tasks.emplace_back(task);
+            tasks.emplace_back(func);
         }
         worker_cv.notify_one();
     };
@@ -64,7 +74,7 @@ void Workers::thread_task()
 {
     while (true)
     {
-        function<void()> task;
+        function_info task_info;
         {
             unique_lock<mutex> lock(worker_mutex);
             while (tasks.empty())
@@ -75,10 +85,10 @@ void Workers::thread_task()
                 //Tråden settes på ventelisten
                 worker_cv.wait(lock);
             }
-            task = *tasks.begin();
+            task_info = *tasks.begin();
             tasks.pop_front();
         }
-        if (task)
-            task();
+        if (task_info.task)
+            task_info.task(task_info.buffer,task_info.client_addr, task_info.n);
     }
 }

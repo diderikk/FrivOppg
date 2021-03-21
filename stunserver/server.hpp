@@ -44,31 +44,28 @@ class Server
             std::cerr << "Could not bind the port: " << PORT << std::endl;
             exit(EXIT_FAILURE);
         }
-        // Currently runs until 
+
         while (true)
         {
             int len = sizeof(client_addr);
             int n = recvfrom(server_fd, (char *)buffer, 1024,
                              MSG_WAITALL, (struct sockaddr *)&client_addr,
                              (socklen_t *)&len);
-            if (n < 20)
-            {
-                std::cerr << "Request less than 20 bytes" << std::endl;
-                exit(EXIT_FAILURE);
-            }
-            // Convert the member function to a void()
-            std::function<void()> f = [=](){
-                this->handle_request();
+            // Convert the member function to a void(*)
+            std::function<void(char *, sockaddr_in, int)> f = [this](char *buf, sockaddr_in client_addr, int n){
+                this->handle_request(buf, client_addr, n);
             };
-            event_loop.post(f);
+            // Posts all arguments to be used later, when task is executed
+            // Can't pass "this" as i will be passed by reference
+            event_loop.post(f,n, client_addr, buffer);
         }
     }
 
-    void handle_request()
+    void handle_request(char *buf, sockaddr_in client_addr, int n)
     {
         // std::cout << n << std::endl;
-        parse_verify_request(buffer, client_addr);
-        std::vector<char> response = binding_response(buffer, client_addr, true);
+        int code = parse_verify_request(buf, client_addr, n);
+        std::vector<char> response = binding_response(buf, client_addr, true, code);
         int len = sizeof(client_addr);
         sendto(server_fd, response.data(), response.size(), MSG_CONFIRM, (struct sockaddr *)&client_addr, len);
     }

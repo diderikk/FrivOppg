@@ -6,6 +6,11 @@ const HTTPPORT = 3000;
 
 ws.startWebSocket();
 
+/**
+ * Creates a HTTP server
+ * Returns requested files
+ */
+
 const httpServer = http.createServer((req, res) => {
   if (req.method === "GET") {
     if (req.url === "/index.js") {
