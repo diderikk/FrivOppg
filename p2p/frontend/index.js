@@ -18,7 +18,6 @@ window.onload = () => {
   // When peers are connected, remote camera will be displayed
   playVideoFromRemoteCamera();
 
-
   document.getElementById("create").onclick = () => {
     ws.onmessage = (event) => {
       // If session ID is returned
@@ -104,8 +103,7 @@ function createRoom() {
   // Creates a chat channel
   chatChannel = WebRTCConnection.createDataChannel("chat");
   chatChannel.onmessage = (event) => {
-    document.getElementById("output").value +=
-      "\n" + "Remote: " + event.data;
+    document.getElementById("output").value += "\n" + "Remote: " + event.data;
     console.log(event.data);
   };
   chatChannel.onopen = () => {
@@ -136,7 +134,7 @@ function createRoom() {
 }
 /**
  * Creates answers and joins channel
- * @param {Offer} remoteDescription 
+ * @param {Offer} remoteDescription
  */
 function joinRoom(remoteDescription) {
   // Joins chat channel if offer offers it
@@ -177,10 +175,10 @@ function joinRoom(remoteDescription) {
 
 /**
  * Sends an message object to the WebSocket server
- * @param {string} sessionID 
- * @param {localdescription} data 
- * @param {boolean} isAnswer 
- * @param {boolean} isOffer 
+ * @param {string} sessionID
+ * @param {localdescription} data
+ * @param {boolean} isAnswer
+ * @param {boolean} isOffer
  */
 function send(sessionID, data, isAnswer, isOffer) {
   let message = {
