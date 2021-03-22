@@ -36,8 +36,7 @@ StunServer is STUN-server implemented to return your public IPv4-address when yo
 
 
 ## External depedencies
-Node.js\
-docker
+Docker.io
 
 ## Optional depedencies
 Makefile
