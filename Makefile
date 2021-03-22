@@ -1,4 +1,4 @@
-all: remove clean build run
+all: clean build remove run
 
 # Removes docker image if it is running
 clean: 
