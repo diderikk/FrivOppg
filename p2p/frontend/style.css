@@ -34,14 +34,14 @@ form {
 #video-container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-evenly;
   width: 100%;
 }
 
 .video-label {
   display: flex;
   flex-direction: column;
-  width: 37%;
+  width: 31%;
   margin: 0 20px 10px 0;
 }
 
@@ -63,7 +63,7 @@ form {
   margin-bottom: 0;
   height: 0;
   width: 100%;
-  margin-left: 2%;
+  /* margin-left: 2%; */
 }
 
 #chat {
@@ -74,7 +74,7 @@ form {
 }
 
 #output {
-  width: 100%;
+  width: 85%;
   margin-bottom: 20px;
   outline: none;
   border-radius: 5px;
@@ -82,7 +82,7 @@ form {
   resize: none;
   font-size: 16px;
   height: 23vh;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 
 input {
@@ -115,7 +115,12 @@ input {
 }
 
 #create {
-  width: 60%;
+  width: 45%;
+  /* margin-right: 5%; */
+}
+
+#connect{
+  margin-right: 4;
 }
 
 #created-session-id {

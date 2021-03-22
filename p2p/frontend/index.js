@@ -7,7 +7,7 @@ const ws = new WebSocket("ws://localhost:3001");
 // Can be changed to stun@40.85.141.137, when server ONLINE
 // TODO, change urls
 const configuration = {
-  iceServers: [{ urls: "stun:stun1.l.google.com:19302" }],
+  iceServers: [{ urls: "stun:40.85.141.137:3478" }],
 };
 // Starts an PeerConnection
 const WebRTCConnection = new RTCPeerConnection(configuration);
