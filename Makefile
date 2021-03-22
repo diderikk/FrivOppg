@@ -2,7 +2,7 @@ all: clean build remove run
 
 # Removes docker image if it is running
 clean: 
-	@docker rmi stunserver
+	-docker rmi stunserver
 
 # Builds the docker image from Dockerfile
 build: Dockerfile
