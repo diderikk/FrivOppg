@@ -15,6 +15,8 @@
 #define XOR_MAPPED_ADDRESS_TYPE 0X0020
 #define ERROR_CODE 0x0009
 #define UNKNOWN_ATTRIBUTES_CODE 0x000A
+#define SOFTWARE 0x8022
+#define ALTERNATE_SERVER 0x8023
 #define IPv4 0x01
 
 char *xor_mapped_address(sockaddr_in client_addr, char *buffer);
@@ -32,7 +34,7 @@ std::vector<char> error_code_attr(short code);
 int parse_verify_request(char *buffer, sockaddr_in client_addr, int n)
 {
     // Bad Request, header must be 20 bytes
-    if (n < 20)
+    if (n < 20 || n == 21)
     {
         return 400;
     }
@@ -80,15 +82,17 @@ std::vector<char> binding_response(char *buffer, sockaddr_in client_addr, bool i
     // Message type
     short message_type = (code == 200) ? BINDING_RESPONSE : BINDING_ERROR_RESPONSE;
 
+    // Writes message type to buffer
     response.push_back(message_type >> 8);
     response.push_back(message_type & 0b11111111);
 
     // Attributes
     std::vector<char> attributes;
-    // MAPPED ADDRESS either xored or not
+    // MAPPED ADDRESS either xored or not or error
     char *ma_attr;
     if (code != 200)
     {
+        // Get error response with error reason phrase
         std::vector<char> error_attr = error_code_attr(code);
         add_attribute(error_attr.data(), error_attr.size(), ERROR_CODE, attributes);
     }
@@ -97,12 +101,19 @@ std::vector<char> binding_response(char *buffer, sockaddr_in client_addr, bool i
         // XOR MAPPED ADDRESS IPv4
         ma_attr = xor_mapped_address(client_addr, buffer);
         add_attribute(ma_attr, 8, XOR_MAPPED_ADDRESS_TYPE, attributes);
+        // std::vector<char> software_attr = software();
+        // add_attribute(software_attr.data(),software_attr.size(), SOFTWARE, attributes);
+        // add_attribute(alternate_server(),8,ALTERNATE_SERVER, attributes);
+        
     }
     else
     {
         //MAPPED ADDRESS IPv4
         ma_attr = mapped_address(client_addr);
         add_attribute(ma_attr, 8, MAPPED_ADDRESS_TYPE, attributes);
+        // std::vector<char> software_attr = software();
+        // add_attribute(software_attr.data(),software_attr.size(), SOFTWARE, attributes);
+        // add_attribute(alternate_server(),8,ALTERNATE_SERVER, attributes);
     }
 
     // Adds total attributes length to response packet

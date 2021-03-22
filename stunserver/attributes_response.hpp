@@ -109,3 +109,28 @@ std::vector<char> error_code_attr(short code)
 
     return error_attr;
 }
+
+// Returns SOFTWARE attribute
+std::vector<char> software()
+{
+    std::vector<char> software;
+    // Written from VM's properties
+    std::string software_string = "Virtual machine"
+                                  "Computer name: stunserver1"
+                                  "Operating system: Linux(ubuntu 18.04)"
+                                  "vCPUs: 1"
+                                  "RAM: 0.5GiB";
+    software.insert(software.end(), software_string.begin(), software_string.end());
+
+    return software;
+}
+
+// Returns ALTERNATE SERVER attribute
+char *alternate_server(){
+    sockaddr_in server_addr;
+    server_addr.sin_family = AF_INET;
+	inet_pton(AF_INET, "74.125.200.127", &server_addr.sin_addr);
+	server_addr.sin_port = htons(19302);
+    char *mapped_address_atr = mapped_address(server_addr);
+    return mapped_address_atr;
+}
