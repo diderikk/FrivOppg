@@ -57,10 +57,10 @@ form {
   justify-content: center;
 }
 
-#forms{
+#forms {
   justify-content: space-around;
   margin-top: 10px;
-  margin-bottom: 0; 
+  margin-bottom: 0;
   height: 0;
   width: 100%;
   margin-left: 2%;
@@ -114,7 +114,7 @@ input {
   align-items: center;
 }
 
-#create{
+#create {
   width: 60%;
 }
 

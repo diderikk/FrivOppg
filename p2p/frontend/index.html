@@ -1,48 +1,51 @@
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Peer To Peer</title>
+    <!-- Will be sent by server -->
+    <link rel="stylesheet" href="style.css" />
+    <script src="index.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>Peer To Peer</title>
-  <!-- Will be sent by server -->
-  <link rel="stylesheet" href="style.css" />
-  <script src="index.js"></script>
-</head>
+  <body>
+    <h1>Peer to Peer Client</h1>
+    <div id="container">
+      <div id="video-container">
+        <div class="video-label">
+          <label for="local-video">Local</label>
+          <video id="local-video" autoplay playsinline></video>
+        </div>
 
-<body>
-  <h1>Peer to Peer Client</h1>
-  <div id="container">
-    <div id="video-container">
-      <div class="video-label">
-        <label for="local-video">Local</label>
-        <video id="local-video" autoplay playsinline></video>
+        <div class="video-label">
+          <label for="remote-video">Remote</label>
+          <video id="remote-video" autoplay playsinline></video>
+        </div>
       </div>
-
-      <div class="video-label">
-        <label for="remote-video">Remote</label>
-        <video id="remote-video" autoplay playsinline></video>
+      <div class="chat-controllers">
+        <div id="chat">
+          <textarea id="output" readonly>Chat:</textarea>
+        </div>
+        <div id="controllers">
+          <button id="create" class="button">Create Room</button>
+          <h4 id="created-session-id">Hello</h4>
+        </div>
+      </div>
+      <div id="forms" class="chat-controllers">
+        <form>
+          <input id="message-input" type="text" />
+          <button id="send" class="button" disabled>Send</button>
+        </form>
+        <form>
+          <input
+            id="session-id-input"
+            type="text"
+            placeholder="Session ID"
+            required
+          />
+          <button id="connect" class="button" type="submit">Connect</button>
+          <p id="error"></p>
+        </form>
       </div>
     </div>
-    <div class="chat-controllers">
-      <div id="chat">
-        <textarea id="output" readonly>Chat:</textarea>
-      </div>
-      <div id="controllers">
-        <button id="create" class="button">Create Room</button>
-        <h4 id="created-session-id">Hello</h4>
-      </div>
-    </div>
-    <div id="forms" class="chat-controllers">
-      <form>
-        <input id="message-input" type="text" />
-        <button id="send" class="button" disabled>Send</button>
-      </form>
-      <form>
-        <input id="session-id-input" type="text" placeholder="Session ID" required />
-        <button id="connect" class="button" type="submit">Connect</button>
-        <p id="error"></p>
-      </form>
-    </div>
-  </div>
-</body>
-
+  </body>
 </html>
