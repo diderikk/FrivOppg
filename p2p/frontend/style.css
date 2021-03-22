@@ -41,7 +41,7 @@ form {
 .video-label {
   display: flex;
   flex-direction: column;
-  width: 31%;
+  width: 37%;
   margin: 0 20px 10px 0;
 }
 
@@ -49,12 +49,21 @@ form {
   text-align: center;
 }
 
-#chat-controllers {
+.chat-controllers {
   display: flex;
   flex-direction: row;
   margin-top: 30px;
-  width: 85%;
+  width: 95%;
   justify-content: center;
+}
+
+#forms{
+  justify-content: space-around;
+  margin-top: 10px;
+  margin-bottom: 0; 
+  height: 0;
+  width: 100%;
+  margin-left: 2%;
 }
 
 #chat {
@@ -65,7 +74,7 @@ form {
 }
 
 #output {
-  width: 70%;
+  width: 100%;
   margin-bottom: 20px;
   outline: none;
   border-radius: 5px;
@@ -73,15 +82,17 @@ form {
   resize: none;
   font-size: 16px;
   height: 23vh;
+  overflow-y: scroll;
 }
 
 input {
   margin-top: 5px;
   margin-bottom: 5px;
   height: 3.5vh;
-  width: 25vh;
+  width: 60%;
   font-size: 20px;
   border-radius: 3px;
+  border: 2px solid grey;
 }
 
 .button {
@@ -89,7 +100,7 @@ input {
   margin-bottom: 15px;
   border-radius: 5px;
   font-size: 20px;
-  width: 15vh;
+  width: 35%;
   height: 4vh;
   border: 1px solid transparent;
   cursor: pointer;
@@ -101,6 +112,10 @@ input {
   flex-direction: column;
   width: 50%;
   align-items: center;
+}
+
+#create{
+  width: 60%;
 }
 
 #created-session-id {

@@ -14,4 +14,4 @@ build: Dockerfile
 
 # Runs the recently built image and open the UDP port
 run:
-	docker run -d -p 8080:8080/udp --rm --name stun stunserver
+	docker run -d -p 3478:3478/udp --rm --name stun stunserver

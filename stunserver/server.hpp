@@ -12,7 +12,7 @@
 
 class Server
 {
-    int PORT = 8080;
+    int PORT = 3478;
     int server_fd;
     int opt = 1;
     struct sockaddr_in server_addr, client_addr;
