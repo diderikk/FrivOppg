@@ -90,7 +90,7 @@ bool should_create_420_error_code(){
     if(attribute[0] != 0 || attribute[1] != 0) return false;
     if(attribute[2] != 4 || attribute[3] != 20) return false;
     if(attribute.size() != 129) return false;
-    return true;
+    return false;
 }
 int main()
 {
