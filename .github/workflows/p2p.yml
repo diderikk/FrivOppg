@@ -3,7 +3,7 @@ name: p2p CI/CD
 on:
   push:
     paths:
-      - 'p2p'
+      - 'p2p/*'
 
 jobs:
   prettier:

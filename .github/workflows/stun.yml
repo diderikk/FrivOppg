@@ -3,7 +3,7 @@ name: stun CD
 on:
   push:
     paths:
-      - 'stunserver'
+      - 'stunserver/*'
 
 jobs:
   deploy:

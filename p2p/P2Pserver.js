@@ -53,7 +53,7 @@ const httpServer = http.createServer((req, res) => {
   }
 });
 
-// Listen on port 3000
+// Listens on port 3000
 httpServer.listen(HTTPPORT, () => {
   console.log("Server listening on port", HTTPPORT);
 });
