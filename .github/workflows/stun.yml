@@ -17,7 +17,7 @@ jobs:
         with:
           platform: x64
       - run: ls
-      - run: cp test/attribute_test .
+      - run: cp test/attribute_test.cpp .
       - run: ls
       - run: g++ attribute_test.cpp -o test
       - run: ./test
