@@ -12,9 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: apt-get install
-      - run: apt install -y g++
-      - run: cd stunserver/
+      - uses: egor-tensin/setup-gcc@v1
+        with:
+          platform: x64
+      - run: g++
 
   deploy:
     name: Deploy

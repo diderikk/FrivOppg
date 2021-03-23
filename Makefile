@@ -1,3 +1,4 @@
+# Target stun
 stun: stun_remove stun_clean stun_build stun_run
 
 # Removes docker container if it is running
@@ -17,7 +18,13 @@ stun_run:
 	docker run -d -p 3478:3478/udp --rm --name stun stunserver
 
 
-# Target
+# Target test
+test: test_build_run
+
+test_build_run:
+	docker build -t test ./test
+
+# Target p2p
 p2p: p2p_remove p2p_clean p2p_build p2p_run
 
 
