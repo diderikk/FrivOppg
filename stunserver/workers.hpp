@@ -10,7 +10,6 @@
 #pragma once
 
 using namespace std;
-// g++ main_sleep.cpp -lpthread -o main_sleep
 
 // Container for function arguments
 struct function_info{
