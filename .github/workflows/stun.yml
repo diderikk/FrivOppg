@@ -18,6 +18,10 @@ jobs:
           platform: x64
       - run: ls
       - run: cd test
+      - run: g++ attribute_test.cpp -o test
+      - run: ./test
+      - run: g++ handler_test.cpp -o test
+      - run: ./test
 
   deploy:
     name: Deploy
