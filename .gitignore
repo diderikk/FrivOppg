@@ -4,6 +4,6 @@ client
 
 server
 
-test
+test/test
 
 wireshark.*
