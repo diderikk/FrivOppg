@@ -188,5 +188,6 @@ function send(sessionID, data, isAnswer, isOffer) {
     isAnswer: isAnswer,
     remoteDescription: data,
   };
+  console.log(JSON.stringify(message));
   ws.send(JSON.stringify(message));
 }

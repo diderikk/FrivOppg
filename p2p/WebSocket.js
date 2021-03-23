@@ -36,6 +36,7 @@ function startWebSocket() {
             `Connection: Upgrade\r\nSec-WebSocket-Accept: ${acceptKey}\r\n\r\n`
         );
       } else {
+        console.log("Hello");
         //Checks opcode for connection closing
         if ((data[0] & 0b1111) === 0x8) {
           connection.end();
@@ -44,7 +45,7 @@ function startWebSocket() {
         // Client message
         let message = parseData(data);
         message = JSON.parse(message);
-        // console.log(message);
+        console.log("Test: ", message);
 
         // If message is an offer:
         if (message.isOffer) {
@@ -151,6 +152,7 @@ function parseData(data) {
   maskStart = 2;
 
   if (length === 126) {
+    console.log("Length grater than 126");
     // Creates a 16 bit number from two bytes
     length = (data[2] << 8) | data[3];
 
