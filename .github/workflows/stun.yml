@@ -1,19 +1,10 @@
-name: CI/CD
+name: stun CD
 
 on: [push]
 
 jobs:
-  prettier:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-      - run: npm install --global prettier
-      - run: prettier --check p2p
-
   deploy:
     name: Deploy
-    needs: prettier
     env:
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
           private_key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -24,5 +15,5 @@ jobs:
       - run: echo "$known_hosts" > ~/.ssh/known_hosts
       - run: echo "$private_key" > ~/.ssh/id_rsa
       - run: chmod 600 ~/.ssh/id_rsa
-      - run: scp -r stunserver Dockerfile Makefile stun@40.85.141.137:~/
+      - run: scp -r stunserver Makefile stun@40.85.141.137:~/
       - run: ssh stun@40.85.141.137 make stun

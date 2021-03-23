@@ -9,8 +9,8 @@ stun_clean:
 	-docker rmi stunserver
 
 # Builds the docker image from Dockerfile
-stun_build: Dockerfile
-	@docker build -t stunserver .
+stun_build:
+	@docker build -t stunserver ./stunserver
 
 # Runs the recently built image and open the UDP port
 stun_run:
@@ -18,6 +18,7 @@ stun_run:
 
 
 p2p: p2p_remove p2p_clean p2p_build
+
 
 p2p_remove:
 	-docker stop p2p
