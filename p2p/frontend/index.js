@@ -3,7 +3,7 @@ let localDescription = null;
 let chatChannel = null;
 let sessionID = "";
 // Sets up a websocket connection to server
-const ws = new WebSocket("ws://40.85.141.137:3001");
+const ws = new WebSocket("ws://localhost:3001");
 
 // Can be changed to stun@40.85.141.137, when server ONLINE
 // TODO, change urls
