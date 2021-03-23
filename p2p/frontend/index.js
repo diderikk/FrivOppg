@@ -59,7 +59,7 @@ window.onload = () => {
   document.getElementById("send").addEventListener("click", (event) => {
     event.preventDefault();
     let input = document.getElementById("message-input").value;
-    if(!input) return;
+    if (!input) return;
     document.getElementById("output").value += "\n" + "You: " + input;
     chatChannel.send(input);
     document.getElementById("message-input").value = "";
