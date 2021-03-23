@@ -90,7 +90,7 @@ bool should_create_420_error_code(){
     if(attribute[0] != 0 || attribute[1] != 0) return false;
     if(attribute[2] != 4 || attribute[3] != 20) return false;
     if(attribute.size() != 129) return false;
-    return false;
+    return true;
 }
 int main()
 {
@@ -108,6 +108,7 @@ int main()
     std::cout << "Test 5: " << test5 << std::endl;
     std::cout << "Test 6: " << test6 << std::endl;
 
+    // When running Github action, if either are wrong, the action will stop
     try{
         if(!test1) throw "should_return_transaction_id Failed";
         if(!test2) throw "should_return_magic_cookie Failed";

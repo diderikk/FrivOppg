@@ -64,7 +64,6 @@ class Server
 
     void handle_request(char *buf, sockaddr_in client_addr, int n)
     {
-        // std::cout << n << std::endl;
         int code = parse_verify_request(buf, client_addr, n);
         std::vector<char> response = binding_response(buf, client_addr, true, code);
         int len = sizeof(client_addr);

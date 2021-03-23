@@ -87,7 +87,7 @@ int main(){
     std::cout << "Test 6: " << test6 << std::endl;
     std::cout << "Test 7: " << test7 << std::endl;
 
-
+    // When running Github action, if either are wrong, the action will stop
     try{
         if(!test1) throw "should_return_code_400_buffer_size_21 Failed";
         if(!test2) throw "should_return_code_400_buffer_size_less_than_20 Failed";
