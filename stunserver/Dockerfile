@@ -8,7 +8,7 @@ RUN apt-get install -y g++
 
 EXPOSE 3478/udp
 
-COPY stunserver/ .
+COPY . .
 
 RUN g++ server.cpp -fsanitize=address -lpthread -o server
 
