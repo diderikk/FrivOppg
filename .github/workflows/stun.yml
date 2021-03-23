@@ -1,6 +1,9 @@
 name: stun CD
 
-on: [push]
+on:
+  push:
+    paths:
+      - "stunserver/"
 
 jobs:
   deploy:
