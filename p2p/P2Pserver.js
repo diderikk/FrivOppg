@@ -2,7 +2,7 @@ const http = require("http");
 const fs = require("fs").promises;
 const ws = require("./WebSocket.js");
 
-const HTTPPORT = 80;
+const HTTPPORT = 3000;
 
 ws.startWebSocket();
 
