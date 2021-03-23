@@ -1,4 +1,5 @@
 let localDescription = null;
+
 let chatChannel = null;
 let sessionID = "";
 // Sets up a websocket connection to server
