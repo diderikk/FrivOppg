@@ -16,11 +16,12 @@ jobs:
       - uses: egor-tensin/setup-gcc@v1
         with:
           platform: x64
-      - run: cd test/
-      - run: g++ attribute_test.cpp
+      - run: ls
+      - run: cd test
 
   deploy:
     name: Deploy
+    needs: test
     env:
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
           private_key: ${{ secrets.SSH_PRIVATE_KEY }}
