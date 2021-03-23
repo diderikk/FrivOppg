@@ -3,9 +3,19 @@ name: stun CD
 on:
   push:
     paths:
-      - 'stunserver/**'
+      - 'stunserver/*'
 
 jobs:
+
+  test:
+    name: stuntest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: apt-get install
+      - run: apt install -y g++
+      - run: cd stunserver/
+
   deploy:
     name: Deploy
     env:

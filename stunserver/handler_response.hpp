@@ -3,9 +3,9 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string>
-#include <bitset>
 #include <vector>
 #include "attributes_response.hpp"
+#pragma once
 
 #define MAGIC_COOKIE 0x2112A442
 #define BINDING_REQUEST 0x0001
@@ -66,10 +66,6 @@ int parse_verify_request(char *buffer, sockaddr_in client_addr, int n)
     {
         return 400;
     }
-    // Should be removed
-    // std::string inet_addr = inet_ntoa(client_addr.sin_addr);
-    // std::cout << "Addr: " << inet_addr << " Port: " << ntohs(client_addr.sin_port) << std::endl;
-    // std::cout << "Addr: " << client_addr.sin_addr.s_addr << " Port: " << client_addr.sin_port << std::endl;
 
     return 200;
 }
@@ -127,17 +123,6 @@ std::vector<char> binding_response(char *buffer, sockaddr_in client_addr, bool i
     }
     // Adds attributes
     response.insert(response.end(), attributes.begin(), attributes.end());
-
-    std::cout << attributes.size() << std::endl;
-    std::cout << "Size: " << response.size() << std::endl;
-
-    // Writes all bytes to console
-    // std::bitset<8> fir(buffer[0]);
-    // for (int i = 0; i < response.size(); i++)
-    // {
-    //     fir = response[i];
-    //     std::cout << "Byte: " << i << ": " << fir << std::endl;
-    // }
 
     return response;
 }

@@ -7,6 +7,7 @@
 #include <chrono>
 #include <functional>
 #include <condition_variable>
+#pragma once
 
 using namespace std;
 // g++ main_sleep.cpp -lpthread -o main_sleep

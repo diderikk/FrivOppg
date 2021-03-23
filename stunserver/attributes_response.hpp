@@ -1,6 +1,8 @@
 #include <iostream>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <vector>
+#pragma once
 
 #define IPv4 0x01
 #define MAGIC_COOKIE 0x2112A442
@@ -48,10 +50,11 @@ char *mapped_address(sockaddr_in client_addr)
     // Familiy value
     ma_attr[1] = IPv4;
     // Add port
-    ma_attr[2] = (client_addr.sin_port >> 8);
-    ma_attr[3] = (client_addr.sin_port & 0b11111111);
+    short port = htons(client_addr.sin_port);
+    ma_attr[2] = (port >> 8);
+    ma_attr[3] = (port & 0b11111111);
     // Change IP address to network byte order
-    int ip_address = htonl(client_addr.sin_addr.s_addr);
+    int ip_address = ntohl(client_addr.sin_addr.s_addr);
     // Adds IP address
     for (int i = 0; i < 4; i++)
     {
@@ -70,10 +73,10 @@ char *xor_mapped_address(sockaddr_in client_addr, char *buffer)
     // Familie value
     xma_attr[1] = IPv4;
     int magic_cookie = get_magic_cookie(buffer);
-    // Converts address to host byte length and xors it with most 16 significant bits in magic_cookie
-    short x_port = ntohs(client_addr.sin_port) ^ (magic_cookie >> 16);
-    // Converts address to host byte length and xors it with magic_cookie
-    int x_address = (ntohl(client_addr.sin_addr.s_addr) ^ magic_cookie);
+    // Converts address to network byte length and xors it with most 16 significant bits in magic_cookie
+    short x_port = htons(client_addr.sin_port) ^ (magic_cookie >> 16);
+    // Converts address to network byte length and xors it with magic_cookie
+    int x_address = (htonl(client_addr.sin_addr.s_addr) ^ magic_cookie);
     // Adds IP address
     xma_attr[2] = (x_port >> 8);
     xma_attr[3] = (x_port & 0b11111111);
@@ -119,7 +122,7 @@ std::vector<char> software()
                                   "Computer name: stunserver1"
                                   "Operating system: Linux(ubuntu 18.04)"
                                   "vCPUs: 1"
-                                  "RAM: 0.5GiB";
+                                  "RAM: 0.5 GiB";
     software.insert(software.end(), software_string.begin(), software_string.end());
 
     return software;

@@ -8,6 +8,7 @@
 #include <vector>
 #include "handler_response.hpp"
 #include "workers.hpp"
+#pragma once
 
 
 class Server
