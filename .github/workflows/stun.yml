@@ -13,16 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: egor-tensin/setup-gcc@v1
-        with:
-          platform: x64
-      - run: ls
-      - run: cp test/attribute_test.cpp .
-      - run: ls
-      - run: g++ attribute_test.cpp -o test
-      - run: ./test
-      - run: g++ handler_test.cpp -o test
-      - run: ./test
+      - run: g++ test/attribute_test.cpp -o test1
+      - run: ./test1
+      - run: g++ test/handler_test.cpp -o test1
+      - run: ./test1
 
   deploy:
     name: Deploy
