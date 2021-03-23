@@ -18,6 +18,7 @@ jobs:
           platform: x64
       - run: ls
       - run: cd test
+      - run: ls
       - run: g++ attribute_test.cpp -o test
       - run: ./test
       - run: g++ handler_test.cpp -o test
