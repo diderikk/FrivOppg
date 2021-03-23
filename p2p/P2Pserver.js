@@ -12,6 +12,7 @@ ws.startWebSocket();
  */
 
 const httpServer = http.createServer((req, res) => {
+  console.log(req.method);
   if (req.method === "GET") {
     if (req.url === "/index.js") {
       fs.readFile(__dirname + "/frontend/index.js")

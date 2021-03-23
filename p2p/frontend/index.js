@@ -144,7 +144,7 @@ function joinRoom(remoteDescription) {
       chatChannel = event.channel;
       chatChannel.onmessage = (event) => {
         document.getElementById("output").value +=
-          "\n" + "Other dude: " + event.data;
+          "\n" + "Remote: " + event.data;
         console.log(event.data);
       };
       chatChannel.onopen = () => {
