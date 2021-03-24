@@ -52,41 +52,41 @@ Makefile
 ## Installation and run instructions
 ### First:
 
-<code>git clone https://github.com/diderikk/FrivOppg.git <br>
+```
+git clone https://github.com/diderikk/FrivOppg.git
 cd FrivOppg
-</code>
+```
 
 ### Run StunServer:
 [Make](https://www.gnu.org/software/make/): \
-<code>make stun</code> \
+```make stun``` \
 [Docker](https://docs.docker.com/get-docker/): \
-<code>docker build -t stunserver ./stunserver && docker run -d -p 3478:3478/udp --rm --name stun stunserver</code> \
+```docker build -t stunserver ./stunserver && docker run -d -p 3478:3478/udp --rm --name stun stunserver``` \
 C++ compiler: \
-<code>g++ stunserver/server.cpp -lpthread -o server && ./server</code> \
+```g++ stunserver/server.cpp -lpthread -o server && ./server``` \
 Can now be reached on port "127.0.0.1:3478" or "localhost:3478" 
 
 
 ### Run Peer to Peer application:
 [Make](https://www.gnu.org/software/make/): \
-<code>make p2p</code> \
-or with [Docker](https://docs.docker.com/get-docker/):
-<code>docker build -t p2p_image ./p2p && docker run -d -p 80:3000 -p 3001:3001 --rm --name p2p p2p_image</code> \
-node: \
-<code>node p2p/P2Pserver.js</code> \
+```make p2p``` \
+[Docker](https://docs.docker.com/get-docker/):
+```docker build -t p2p_image ./p2p && docker run -d -p 80:3000 -p 3001:3001 --rm --name p2p p2p_image``` \
+Node: \
+```node p2p/P2Pserver.js``` \
 If Peer to Peer was run by either Make or Docker, application can be viewed on localhost:80 or localhost. Else if node was used, application can be viewed on localhost:3000.
 
 ### Run Stun tests
 Tests will be run before deploying a new version of StunServer, view.gitub/workflows/stun.yml \
 [Make](https://www.gnu.org/software/make/): \
-<code>make test</code> \
+```make test``` \
 C++ Compiler: \
-<code>g++ test/attribute_test.cpp -o test1 && ./test1 
-<br>
+```
+g++ test/attribute_test.cpp -o test1 && ./test1 
 g++ test/handler_test.cpp -o test1 && ./test1
-<br>
-rm test1</code> \
-<code></code> \
-<code></code> 
+rm test1
+``` 
+
 
 
 ## References
