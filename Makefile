@@ -25,7 +25,7 @@ test_build_run:
 	g++ test/attribute_test.cpp -o test1 && ./test1
 	g++ test/handler_test.cpp -o test1 && ./test1
 
-test_clean: test
+test_clean: test1
 	rm test1
 
 # Target p2p
