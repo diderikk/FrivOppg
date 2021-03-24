@@ -5,7 +5,7 @@ Last run  [CI/CD](https://github.com/diderikk/FrivOppg/actions)
 
 ## Introduction
 
-StunServer is a STUN-server implemented to return your public IPv4-address when you send a STUN-request. It currently only accepts UDP-protocol messages, but TCP may be added later. StunServer parses and validates your request and returns a adequate response. Responses will either return your public IPv4-address or return a STUN error code.
+StunServer is a STUN-server implemented to return your public IPv4-address when you send a STUN-request. It currently only accepts UDP-protocol messages, but TCP may be added later. StunServer parses and validates your request and returns an adequate response. Responses will either return your public IPv4-address or return a STUN error code. Currently only tested in Google Chrome and Firefox.
 
 
 - Implemented functionality
@@ -29,9 +29,9 @@ StunServer is a STUN-server implemented to return your public IPv4-address when 
 - SOFTWARE
     - Contains information about the software being used by STUN agent. This is information about a virtual machine running on Azure.
 - ALTERNATE-SERVER
-    - Reroutes the client to another STUN server. Used nslookup to find IPv4 address to stun1.l.google.com:19306, and redirects the STUN client to it. Currently, this is also implemented, but commented out as it not necessary for communication.
+    - Reroutes the client to another STUN server. Used nslookup to find IPv4 address to stun1.l.google.com:19306 and redirects the STUN client to it. Currently, this is also implemented, but commented out as it not necessary for communication.
 - THREADING
-    - Main thread receives requests and sends the handler to a event loop on a seperate thread. This way main thread will continously be waiting for request, while event loop validates request and sends responses with addresses. The amount of threads can be scaled up as server requests increases.
+    - Main thread receives requests and sends the handler to an event loop on a seperate thread. This way main thread will continously be waiting for request, while event loop validates request and sends responses with addresses. The amount of threads can be scaled up as server requests increases.
 
 ## Future work
 - Accept requests with protcols TCP and TLS. This would mean to host a TCP or TLS server that receives requests on the same address and port as StunServer does with UDP. TLS would require valid certification and a private key generated for both client and server for client to get their public IPv4 address or communication i general. When implemented, clients can self choose what protocol to use when sending requests to the server.
@@ -40,12 +40,12 @@ StunServer is a STUN-server implemented to return your public IPv4-address when 
 - IPv6. Currently, StunServer only accepts IPv4 protocol, and therefore only returns reponses with the public IPv4. For future work, set up an UDP server that accepts IPv6 packets.
 
 
-## External depedencies
+## External dependencies
 Docker \
 Nodejs \
 C++ Compiler 
 
-## Optional depedencies
+## Optional dependencies
 Makefile 
 
 
