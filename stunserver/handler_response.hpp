@@ -97,8 +97,8 @@ std::vector<char> binding_response(char *buffer, sockaddr_in client_addr, bool i
         // XOR MAPPED ADDRESS IPv4
         ma_attr = xor_mapped_address(client_addr, buffer);
         add_attribute(ma_attr, 8, XOR_MAPPED_ADDRESS_TYPE, attributes);
-        // std::vector<char> software_attr = software();
-        // add_attribute(software_attr.data(),software_attr.size(), SOFTWARE, attributes);
+        std::vector<char> software_attr = software();
+        add_attribute(software_attr.data(),software_attr.size(), SOFTWARE, attributes);
         // add_attribute(alternate_server(),8,ALTERNATE_SERVER, attributes);
         
     }
@@ -107,8 +107,8 @@ std::vector<char> binding_response(char *buffer, sockaddr_in client_addr, bool i
         //MAPPED ADDRESS IPv4
         ma_attr = mapped_address(client_addr);
         add_attribute(ma_attr, 8, MAPPED_ADDRESS_TYPE, attributes);
-        // std::vector<char> software_attr = software();
-        // add_attribute(software_attr.data(),software_attr.size(), SOFTWARE, attributes);
+        std::vector<char> software_attr = software();
+        add_attribute(software_attr.data(),software_attr.size(), SOFTWARE, attributes);
         // add_attribute(alternate_server(),8,ALTERNATE_SERVER, attributes);
     }
 

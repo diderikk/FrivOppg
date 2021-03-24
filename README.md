@@ -1,5 +1,7 @@
 # StunServer
 
+Made by Diderik Kramer \
+Last run  [CI/CD](https://github.com/diderikk/FrivOppg/actions)
 
 ## Introduction
 
@@ -9,9 +11,8 @@ StunServer is STUN-server implemented to return your public IPv4-address when yo
 - Implemented functionality
 - Future work
 - External dependencies
-- Installation instructions
-- Instructions for starting STUN-server
-- API Sources
+- Installation and run instructions
+- References
 
 ## Implemented functionality
 - DEPLOYABLE
@@ -26,34 +27,71 @@ StunServer is STUN-server implemented to return your public IPv4-address when yo
     - Validates received request and returns adequate response
     - Only implemented error codes 400 and 420, 420 for requests with more than 21 bytes. This is because StunServer does not expect any attributes in an request. This means any STUN request with 22 bytes the server expects it to be an request with an attribute type(2 bytes).
 - SOFTWARE
-    - Contains information about the software being used by STUN agent. Have been implemented but commented out, as it is not necessary for either STUN agents.
+    - Contains information about the software being used by STUN agent. This is information about a virtual machine run on Azure.
 - ALTERNATE-SERVER
     - Reroutes the client to another STUN server. Used nslookup to find IPv4 address to stun1.l.google.com:19306, and redirects the STUN client to it. Currently, this is also implemented, but commented out as it not necessary for communication.
 - THREADING
     - Main thread receives requests and sends the handler to a event loop on a seperate thread. This way main thread will continously be waiting for request, while event loop validates request and sends responses with addresses.
 
 ## Future work
-- Accept requests with the protcols TCP and TLS. This would mean to host a TCP or TLS server that receives requests on same address and port as StunServer does with UDP. TLS would require valid certification and a private key generated for both client and server for client to get their public IPv4 address.
+- Accept requests with the protcols TCP and TLS. This would mean to host a TCP or TLS server that receives requests on same address and port as StunServer does with UDP. TLS would require valid certification and a private key generated for both client and server for client to get their public IPv4 address. When implemented, clients can self choose what protocol to use when sending request to server.
 - Implementing USERNAME and MESSAGE-INTEGRITY attributes to increase security of the response. The response would then be hashed, and the reponse would only be sent if both attributes are present. This would also imply only clients with the username and password can send request and expect a response.
-- Add other attributes, REALM, NONCE and UNKNOWN-ATTRIBUTES. Most relevant would be UNKNOWN-ATTRIBUTES, as it's error code has been implemented, but not telling client what attribute is not understood by server. NONCE would require the use of USERNAME and MESSAGE-INTEGRITY.  
-- IPv6. Currently, StunServer only accepts IPv4 protocol, and therefore only return a reponse with the public IPv4. 
-- Unit testing. Currently, only CI job implemented is "prettier" package from Node for spell and format checking for all JavaScript code in the Peer to Peer application code. 
+- Add other attributes, REALM, NONCE and UNKNOWN-ATTRIBUTES. Most relevant would be UNKNOWN-ATTRIBUTES, as it's error code has been implemented, but the server is not telling client what attribute is not understood by server. NONCE would require the use of USERNAME and MESSAGE-INTEGRITY.  
+- IPv6. Currently, StunServer only accepts IPv4 protocol, and therefore only returns reponses with the public IPv4. 
+- Saving Transaction-ID. Transaction ID can be saved for 40 seconds after an request has been received.
 
 
 ## External depedencies
 Docker \
-Nodejs
+Nodejs \
+C++ Compiler 
 
 ## Optional depedencies
-Makefile \
-C++ Compiler
+Makefile 
 
 
-## Installation instructions
+## Installation and run instructions
+### First:
+
+<code>git clone https://github.com/diderikk/FrivOppg.git</code> \
+<code>cd FrivOppg</code> 
+
+### Run StunServer:
+If [Make](https://www.gnu.org/software/make/) is installed locally: \
+<code>make stun</code> \
+or with [Docker](https://docs.docker.com/get-docker/): \
+<code>docker build -t stunserver ./stunserver && docker run -d -p 3478:3478/udp --rm --name stun stunserver</code> \
+or without Docker: \
+<code>g++ stunserver/server.cpp -lpthread -o server && ./server</code> \
+Can now be reached on port "127.0.0.1:3478" or "localhost:3478" 
+
+
+### Run Peer to Peer application:
+If [Make](https://www.gnu.org/software/make/) is installed locally: \
+<code>make p2p</code> \
+or with [Docker](https://docs.docker.com/get-docker/):
+<code>docker build -t p2p_image ./p2p && docker run -d -p 80:3000 -p 3001:3001 --rm --name p2p p2p_image</code> \
+or with node: \
+<code>node p2p/P2Pserver.js</code> \
+If Peer to Peer was run by either Make or Docker, application can be viewed on localhost:80 or localhost. Else if node was used, application can be viewed on localhost:3000.
+
+### Run Stun tests
+Tests will be run before deploying a new version of StunServer, view.gitub/workflows/stun.yml \
+If [Make](https://www.gnu.org/software/make/) is installed locally: \
+<code>make test</code> \
+or without [Docker](https://docs.docker.com/get-docker/): \
+<code>g++ test/attribute_test.cpp -o test1 && ./test1</code> \
+<code>g++ test/handler_test.cpp -o test1 && ./test1</code> \
+<code>rm test1</code> 
+
+
+## References
+[RFC 5389](https://tools.ietf.org/html/rfc5389#section-9) \
+[UDP Server](https://www.geeksforgeeks.org/udp-server-client-implementation-c/) \
+[HTTP Node Server](https://nodejs.dev/learn/the-nodejs-http-module) \
+[WebRTC](https://webrtc.org/getting-started/overview) 
 
 
 
 
 
-
-[Last Run CI/CD](https://github.com/diderikk/FrivOppg/actions)

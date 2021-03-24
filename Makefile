@@ -19,10 +19,14 @@ stun_run:
 
 
 # Target test
-test: test_build_run
+test: test_build_run test_clean
 
 test_build_run:
-	docker build -t test ./test
+	g++ test/attribute_test.cpp -o test1 && ./test1
+	g++ test/handler_test.cpp -o test1 && ./test1
+
+test_clean: test
+	rm test1
 
 # Target p2p
 p2p: p2p_remove p2p_clean p2p_build p2p_run

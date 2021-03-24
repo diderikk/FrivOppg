@@ -118,11 +118,11 @@ std::vector<char> software()
 {
     std::vector<char> software;
     // Written from VM's properties
-    std::string software_string = "Virtual machine"
-                                  "Computer name: stunserver1"
-                                  "Operating system: Linux(ubuntu 18.04)"
-                                  "vCPUs: 1"
-                                  "RAM: 0.5 GiB";
+    std::string software_string = "Virtual machine\n"
+                                  "Computer name: stunserver1\n"
+                                  "Operating system: Linux(ubuntu 18.04)\n"
+                                  "vCPUs: 1\n"
+                                  "RAM: 0.5 GiB\n";
     software.insert(software.end(), software_string.begin(), software_string.end());
 
     return software;
