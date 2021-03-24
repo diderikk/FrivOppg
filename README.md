@@ -70,7 +70,7 @@ Can now be reached on port "127.0.0.1:3478" or "localhost:3478"
 ### Run Peer to Peer application:
 [Make](https://www.gnu.org/software/make/): \
 ```make p2p``` \
-[Docker](https://docs.docker.com/get-docker/):
+[Docker](https://docs.docker.com/get-docker/): \
 ```docker build -t p2p_image ./p2p && docker run -d -p 80:3000 -p 3001:3001 --rm --name p2p p2p_image``` \
 Node: \
 ```node p2p/P2Pserver.js``` \
@@ -80,7 +80,7 @@ If Peer to Peer was run by either Make or Docker, application can be viewed on l
 Tests will be run before deploying a new version of StunServer, view.gitub/workflows/stun.yml \
 [Make](https://www.gnu.org/software/make/): \
 ```make test``` \
-C++ Compiler: \
+C++ Compiler: 
 ```
 g++ test/attribute_test.cpp -o test1 && ./test1 
 g++ test/handler_test.cpp -o test1 && ./test1
